@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-
 const teacherController = require('../../controllers/users/teacher.controller');
+const teacherDashboard = require('./teacherdashboard.route');
 const { body } = require('express-validator');
 const verifyUser = require('../../middlewares/verify.user');
 
@@ -17,5 +17,8 @@ router.post('/login', [
     body('email').isEmail().withMessage('Invalid email address'),
     body('password').notEmpty().withMessage('Password is required'),
 ], teacherController.login);
+
+router.use('/dashboard', teacherDashboard);
+
 
 module.exports = router;
