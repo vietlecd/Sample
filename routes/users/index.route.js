@@ -3,6 +3,6 @@ const studentRoute = require('./student.route');
 
 
 module.exports = (app) => {
-    app.use('/teacher',teacherRoute);
     app.use('/student',studentRoute);
+    app.use('/teacher',teacherRoute);
 }
