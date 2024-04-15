@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const adminRoute = require('./routes/admin/index.route');
+const userRoute = require('./routes/users/index.route');
 require('dotenv').config();
 
 const app = express();
@@ -17,6 +18,7 @@ app.use(bodyParser.json());
 
 // Admin route setup
 adminRoute(app);
+userRoute(app);
 
 const PORT = 5000;
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
