@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 
 const courseSchema = new mongoose.Schema({
-    courseCode: { type: String, required: true },
+    semester: { type: String, required: true },
+    courseCode: { type: String, required: true, unique: true},
     scheduleDay: { type: String, required: true },
     scheduleTime: { type: String, required: true },
     classroom: { type: String, required: true },

@@ -1,5 +1,5 @@
 // Import necessary modules and models
-const Course = require('path_to_course_model');
+const Course = require('../../models/course.model');
 
 // Get all courses
 const getCourses = async (req, res) => {
@@ -17,6 +17,7 @@ const addCourse = async (req, res) => {
   // Logic to add a new course to the database
   try {
     const newCourse = new Course({
+        semester: req.body.semester,
         courseCode: req.body.courseCode,
         scheduleDay: req.body.scheduleDay,
         scheduleTime: req.body.scheduleTime,
@@ -33,23 +34,43 @@ const addCourse = async (req, res) => {
 
 // Update an existing course
 const updateCourse = async (req, res) => {
-  // Logic to update a course based on its ID
   try {
-    const updatedCourse = await Course.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    res.json(updatedCourse);
-  } catch (error) {
-    res.status(400).send(error.message);
+    const courseUpdate = {
+      semester: req.body.semester,
+      courseCode: req.body.courseCode,
+      scheduleDay: req.body.scheduleDay,
+      scheduleTime: req.body.scheduleTime,
+      classroom: req.body.classroom,
+      studentCount: req.body.studentCount,
+      instructorName: req.body.instructorName
+    };
+
+    const course = await Course.findOneAndUpdate({ courseCode: req.params.courseCode }, courseUpdate, { new: true });
+
+    if (!course) {
+      return res.status(404).send();
+    }
+
+    res.send(course);
+  } catch (e) {
+    res.status(400).send(e);
   }
 };
 
+
 // Delete a course
 const deleteCourse = async (req, res) => {
-  // Logic to delete a course based on its ID
   try {
-    await Course.findByIdAndDelete(req.params.id);
-    res.status(204).send();
+      const { courseCode } = req.params; 
+      const deletedCourse = await Course.findOneAndDelete({ courseCode: courseCode });
+      
+      if (!deletedCourse) {
+          return res.status(404).send('Course not found');
+      }
+
+      res.status(204).send('Success');  // No content to send back, but indicate success
   } catch (error) {
-    res.status(500).send(error.message);
+      res.status(500).send(error.message);
   }
 };
 
