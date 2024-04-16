@@ -11,6 +11,7 @@ router.use('/thongtinsinhvien',thongtinSinhVien.dashboard);
 router.use('/thongtindaotao',thongtinDaoTao.dashboard);
 
 router.use('/tkb',tkb.dashboard);
-router.use('/lichthi',lichthi.dashboard);
+router.get('/lichthi',lichthi.getAllLichThi);
+router.get('/lichthi/:courseCode',lichthi.getLichThi);
 router.use('/bangdiem',bangdiem.dashboard);
 module.exports = router;

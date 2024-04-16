@@ -1,30 +1,24 @@
 const mongoose = require('mongoose');
 
 const studentSchema = new mongoose.Schema({
-    name: String, 
+    name: String,
     email: String,
-    password: String,
-    role: {
-        type: String,
-        default: 'user'
+    password: {
+        type: String, 
+        default: '123456'
     },
-    deleted: Boolean,
-    studentProfile: {
-        hoVaTenLot: String,
-        ten: String,
-        ngaySinh: Date,
-        gioiTinh: String,
-        khoa: String,
-        maLop: String,
-        diaChi: String,
-        soDienThoai: String,
-        emailTruongCap: String,
-        namNhapHoc: String,
-        thoiGianDaoTao: String,
-        namHoc: String,
-        nganhDaoTao: String
+    mssv: { 
+        type: String, 
+        require: true, 
+        unique: true
     }
-});
+    }, 
+    
+    
+    { 
+        timestamps: true // Enable createdAt and updatedAt fields
+    }
+);
 
 const studentModel = mongoose.model('student', studentSchema);
 module.exports = studentModel;
