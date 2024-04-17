@@ -4,11 +4,18 @@ const router = express.Router();
 const thongtinSinhVien = require('../../controllers/users/thongtinsv.controller');
 const thongtinDaoTao = require('../../controllers/users/thongtindt.controller');
 
+const course = require('../../controllers/users/course.controller');
+
 const tkb = require('../../controllers/users/tkb.controller');
 const bangdiem = require('../../controllers/users/bangdiem.controller');
 const lichthi = require('../../controllers/users/lichthi.controller');
 router.use('/thongtinsinhvien',thongtinSinhVien.dashboard);
 router.use('/thongtindaotao',thongtinDaoTao.dashboard);
+
+router.use('/course', course.viewCourseByMSSV);
+router.use('/course', course.addCoursetoStudentbyCode);
+router.use('/course', course.deleteCoursebyCode);
+
 
 router.use('/tkb',tkb.dashboard);
 router.get('/lichthi',lichthi.getAllLichThi);

@@ -38,6 +38,10 @@ const studentSchema = new mongoose.Schema({
         heDaoTao: String,
         nganhDaoTao: String,
         trangThaiSinhVien: String,
+        courseEnroll:{
+            type: [mongoose.Types.ObjectId],
+            ref: 'course'
+        }
     }}, 
     { 
         timestamps: true // Enable createdAt and updatedAt fields
