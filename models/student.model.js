@@ -11,10 +11,34 @@ const studentSchema = new mongoose.Schema({
         type: String, 
         require: true, 
         unique: true
-    }
-    }, 
-    
-    
+    },
+    private_info:{
+        ngaySinh: Date,
+        gioiTinh: { type: String, enum: ['Nam', 'Nu'] },
+        soCCCD: String,
+        ngayCapCCCD: Date,
+        noiCapCCCD: String,
+        khoa: String,
+        maLop: { type: String, ref: 'Lop' },
+        diaChi: String,
+        soDienThoai: String,
+        emailTruongCap: String,
+        emailLienLac: String,
+    },
+      // Training information
+    training_info:{
+        namNhapHoc: String,
+        giaHanHocKy: String,
+        soHocKyDaoTao: Number,
+        soHocKyDaoTaoToiDa: Number,
+        thoiGianDaoTao: String,
+        thoiGianDaoTaoToiDa: String,
+        namHoc: String,
+        capHoc: String,
+        heDaoTao: String,
+        nganhDaoTao: String,
+        trangThaiSinhVien: String,
+    }}, 
     { 
         timestamps: true // Enable createdAt and updatedAt fields
     }

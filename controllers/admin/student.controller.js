@@ -17,7 +17,9 @@ const addStudent = async (req, res) => {
           name: req.body.name,
           email: req.body.email,
           password: req.body.password,
-          mssv: req.body.mssv
+          mssv: req.body.mssv, 
+          private_info: req.body.private_info,
+          training_info: req.body.training_info
      });
       await newStudent.save();
       res.status(201).json(newStudent);
@@ -49,7 +51,9 @@ const updateStudent = async (req, res) => {
             name: req.body.name,
             email: req.body.email,
             password: req.body.password,
-            mssv: req.body.mssv
+            mssv: req.body.mssv,
+            private_info: req.body.private_info,
+            training_info: req.body.training_info
         }
 
         const student = await Student.findOneAndUpdate({ mssv: req.params.mssv }, studentUpdated, { new: true });
