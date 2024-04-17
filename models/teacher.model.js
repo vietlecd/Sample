@@ -11,6 +11,20 @@ const teacherSchema = new mongoose.Schema({
         type: String,
         require: true,
         unique: true
+    },
+    private_info: {
+        ngaySinh: Date, 
+        gioiTinh: String,
+        soCCCD: Number,
+        ngaycapCCCD: Date,
+        noicapCCCD: String,
+        bangcap: String,
+    },
+    contact_info: {
+        diachi: String, 
+        sodienthoai: Number,
+        emailtruongcap: String,
+        emaillienlac: String 
     }
 });
 
