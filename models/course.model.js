@@ -11,11 +11,9 @@ const courseSchema = new mongoose.Schema({
     classroom: {
         room: {type: String, required: true},
         building: {type: String, required: true},
-        teacherCode: {type: String, ref: 'teacher'},
-        time: {type: String}
     },
     instructorName: { type: String, required: true },
-    studentEnroll: {type: [String], ref: 'student'},
+    teacherCode: {type: String, ref: 'teacher', required: true },
     midterm:{
         examDay: {type: String},
         examTime: {type: String},

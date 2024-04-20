@@ -2,10 +2,12 @@ const mongoose = require('mongoose');
 const courseSemesterSchema = new mongoose.Schema({
     courseId: {
         type: mongoose.Types.ObjectId,
-        ref: 'course'
+        ref: 'course',
+        required: true
     },
     semester: {type: String, ref: 'course'},
     courseCode: {type: String, ref: 'course'},
+    credit: {type: String, ref: 'course'},
     grade: {type: Number}
 });
 

@@ -10,3 +10,17 @@ module.exports.dashboard = async (req, res) => {
         res.status(500).send('Server error'); // send error response to client
     }
 };
+
+exports.viewOneStudentInfo = async (req, res) => {
+    const {mssv} = req.params
+    try {
+        const stu_find = {"mssv": mssv};
+        const stuRet = await student.findOne(stu_find);
+        if (!stuRet) {
+          return res.status(404).send();
+        }
+        res.send(stuRet);
+      } catch (e) {
+        res.status(400).send(e);
+      }
+};

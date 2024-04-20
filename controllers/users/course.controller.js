@@ -26,7 +26,6 @@ exports.addCoursetoStudent = async (req, res) => {
             semester: course_match.semester,
             courseCode: course_match.courseCode
         }
-
         const find_filter = {mssv: mssv};
         const update_filter = {$push: {courseEnroll: newCouSem} };
         const option = {};
@@ -40,16 +39,14 @@ exports.addCoursetoStudent = async (req, res) => {
     }
 }
 
-//Delete a courses of a semseter
-exports.deleteCourse = async (req, res) => {
+//Delete a courses enrolled by a student
+exports.deleteCoursefromStudent = async (req, res) => {
     const { mssv, courseCode, semester } = req.params;
     try {
-        
-        //Pull all courseEnroll OID matching one of the element in the array
         const find_filter = {mssv: mssv};
-        const update_filter = {$pull: {courseEnroll: {courseCode: courseCode, semester: semester}} };
+        const update_filter = {$pull: {"courseEnroll": {"courseCode": courseCode, semester: semester}} };
         const option = {};
-        const courseRet = await student.updateOne(find_filter, update_filter, option);
+        const courseRet = await student.updateMany(find_filter, update_filter, option);
         if (!courseRet) {
           return res.status(404).send();
         }
@@ -59,7 +56,7 @@ exports.deleteCourse = async (req, res) => {
     }
 }
 
-//View all courses' info which a student enrolled
+//View all courses in which a student enrolled
 exports.viewCourseByMSSV = async (req, res) => {
     const { mssv } = req.params;
     try {
@@ -74,3 +71,63 @@ exports.viewCourseByMSSV = async (req, res) => {
     }
 };
 
+//View a course's description
+exports.viewCourseDescription = async (req, res) => {
+    const {courseCode, semester} = req.params;
+    try {
+      const find_filter = {"courseCode": courseCode, "semseter": semester}
+      const courseRet = await course.findOne(find_filter);
+      if (!courseRet) {
+        return res.status(404).send();
+      }
+      res.send(courseRet);
+    } catch (e) {
+      res.status(400).send(e);
+  }
+}
+
+//View a teacher's all teaching courses
+exports.viewCoursebyMSGV = async (req, res) => {
+  const { msgv } = req.params;
+  try {
+      const tea = await course.find({"msgv": msgv });
+      if (!tea) {
+        return res.status(404).send();
+      }
+      res.send(tea);
+    } catch (e) {
+      res.status(400).send(e);
+  }
+};
+
+//View all student studying a course
+exports.viewStudentEnrollCourse = async (req, res) => {
+  const {courseCode, semester} = req.params;
+  try {
+    const find_filter = {"courseEnroll.courseCode": courseCode, "courseEnroll.semseter": semester}
+    const courseRet = await course.findOne(find_filter);
+    if (!courseRet) {
+      return res.status(404).send();
+    }
+    res.send(courseRet);
+  } catch (e) {
+    res.status(400).send(e);
+  }
+}
+
+//Update grade of a course for a student
+exports.updateGradeforStudent = async (req, res) => {
+  const {mssv, courseCode, semester, grade} = req.params;
+  try {
+    const stu_find = {"mssv": mssv, "courseEnroll.courseCode": courseCode, "courseEnroll.semseter": semester};
+    const stu_update = {$set: {"courseEnroll.$.grade": grade}}
+    const stu_option = {};
+    const courseRet = await student.updateOne(stu_find, stu_update, stu_option);
+    if (!courseRet) {
+      return res.status(404).send();
+    }
+    res.send(courseRet);
+  } catch (e) {
+    res.status(400).send(e);
+  }
+}
