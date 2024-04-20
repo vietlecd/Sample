@@ -3,29 +3,24 @@ const mongoose = require('mongoose');
 const teacherSchema = new mongoose.Schema({
     name: String, 
     email: String,
-    password: {
+    password: String,
+    role: {
         type: String,
-        default: '123456'
+        default: 'user'
     },
-    msgv: {
-        type: String,
-        require: true,
-        unique: true
-    },
-    private_info: {
-        ngaySinh: Date, 
-        gioiTinh: String,
-        soCCCD: Number,
-        ngaycapCCCD: Date,
-        noicapCCCD: String,
-        bangcap: String,
-    },
-    contact_info: {
-        diachi: String, 
-        sodienthoai: Number,
-        emailtruongcap: String,
-        emaillienlac: String 
-    }
+    maSoGiangVien: String,
+    hoVaTenLot: String,
+    ten: String,
+    ngaySinh: Date,
+    gioiTinh: String,
+    khoa: String,
+    maLop: String,
+    diaChi: String,
+    soDienThoai: String,
+    emailTruongCap: String,
+    namHoc: String,
+    nganhGiangDay: String,
+    deleted: Boolean
 });
 
 const teacherModel = mongoose.model('teacher', teacherSchema);
