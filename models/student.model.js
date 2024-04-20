@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
+const couSem = require('./courseInSemester.model.js').Schema
 
-const studentSchema = new mongoose.Schema({
+const studentSchema = new mongoose.Schema(
+{
     name: String,
     email: String,
     password: {
@@ -38,11 +40,12 @@ const studentSchema = new mongoose.Schema({
         heDaoTao: String,
         nganhDaoTao: String,
         trangThaiSinhVien: String,
-        courseEnroll:{
-            type: [mongoose.Types.ObjectId],
-            ref: 'course'
-        }
-    }}, 
+        
+    },
+    courseEnroll: {
+        type: [couSem],
+    }
+}, 
     { 
         timestamps: true // Enable createdAt and updatedAt fields
     }
