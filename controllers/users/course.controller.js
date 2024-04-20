@@ -1,6 +1,7 @@
 const courseModel = require('../../models/course.model.js');
-const student = require('../../models/student.model.js')
-const teacher = require('../../models/teacher.model.js')
+const student = require('../../models/student.model.js');
+const teacher = require('../../models/teacher.model.js');
+const courseRegister = require('../../models/courseInSemester.model.js')
 
 module.exports.dashboard = (req, res) => {
     try {
@@ -14,31 +15,20 @@ module.exports.dashboard = (req, res) => {
     }
 };
 
-//Add a course by its oid to a student
-//Note: when passing course's object id as course_oid_string, set the object id to be string
-exports.addCoursetoStudentbyOID = async (req, res) => {
-    const { mssv, course_oid_string } = req.params;
-    try {
-        const find_filter = {mssv: mssv};
-        const update_filter = {$push: {courseEnroll: new mongoose.Types.ObjectId(course_oid_string)} };
-        const option = {};
-        const courseRet = await student.updateOne(find_filter, update_filter, option);
-        if (!courseRet) {
-          return res.status(404).send();
-        }
-        res.send(courseRet);
-      } catch (e) {
-        res.status(400).send(e);
-    }
-}
 
 //Add a course matching its code to a student
-exports.addCoursetoStudentbyCode = async (req, res) => {
-    const { mssv, courseCode } = req.params;
+exports.addCoursetoStudent = async (req, res) => {
+    const { mssv, courseCode, semester } = req.params;
     try {
+        const course_match = await courseModel.findOne({courseCode: courseCode, semester: semester}); 
+        const newCouSem = {
+            courseId: course_match._id,
+            semester: course_match.semester,
+            courseCode: course_match.courseCode
+        }
+
         const find_filter = {mssv: mssv};
-        const course_match = await courseModel.findOne({courseCode: courseCode}); 
-        const update_filter = {$push: {courseEnroll: course_match._id} };
+        const update_filter = {$push: {courseEnroll: newCouSem} };
         const option = {};
         const courseRet = await student.updateOne(find_filter, update_filter, option);
         if (!courseRet) {
@@ -50,34 +40,16 @@ exports.addCoursetoStudentbyCode = async (req, res) => {
     }
 }
 
-//Delete a course by its object id
-exports.deleteCoursebyOID = async (req, res) => {
-    const { mssv, course_oid_string } = req.params;
+//Delete a courses of a semseter
+exports.deleteCourse = async (req, res) => {
+    const { mssv, courseCode, semester } = req.params;
     try {
-        const find_filter = {mssv: mssv};
-        const update_filter = {$pull: {courseEnroll: new mongoose.Types.ObjectId(course_oid_string)} };
-        const option = {};
-        const courseRet = await student.updateOne(find_filter, update_filter, option);
-        if (!courseRet) {
-          return res.status(404).send();
-        }
-        res.send(courseRet);
-      } catch (e) {
-        res.status(400).send(e);
-    }
-}
-
-//Delete all courses matching a certain course code
-exports.deleteCoursebyCode = async (req, res) => {
-    const { mssv, courseCode } = req.params;
-    try {
-        const find_filter = {mssv: mssv};
-        //Return an array of course's ObjectID with inputed courseCode
-        const coid_with_code = await courseModel.find({courseCode: courseCode}).select('_id'); 
+        
         //Pull all courseEnroll OID matching one of the element in the array
-        const update_filter = {$pull: {courseEnroll: {$in: coid_with_code}} };
+        const find_filter = {mssv: mssv};
+        const update_filter = {$pull: {courseEnroll: {courseCode: courseCode, semester: semester}} };
         const option = {};
-        const courseRet = await student.updateMany(find_filter, update_filter, option);
+        const courseRet = await student.updateOne(find_filter, update_filter, option);
         if (!courseRet) {
           return res.status(404).send();
         }
@@ -92,8 +64,7 @@ exports.viewCourseByMSSV = async (req, res) => {
     const { mssv } = req.params;
     try {
         const st = await student.findOne({ mssv: mssv });
-        const ce = st.courseEnroll;
-        const courseRet = await course.find({_id: { $in: ce}});
+        const courseRet = st.courseEnroll;
         if (!courseRet) {
           return res.status(404).send();
         }
