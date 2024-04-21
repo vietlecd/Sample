@@ -1,12 +1,9 @@
-const bangdiemModel = require('../../models/course.model');
-
-module.exports.dashboard = async (req, res) => {
+module.exports.dashboard = (req, res) => {
     try {
-        const bangdiem = await bangdiemModel .find();
-        console.log(bangdiem);
-        res.json(bangdiem); // send response to client
+        // Thực hiện các thao tác thành công ở đây
+        res.send("Xin chào! Đây là dòng tin nhắn thành công của bangdiem.");
     } catch (error) {
-        console.error(error);
-        res.status(500).send('Server error'); // send error response to client
+        // Xử lý lỗi khi có lỗi xảy ra
+        res.send("Xin lỗi! Đây là dòng tin nhắn thất bại của bangdiem.");
     }
 };

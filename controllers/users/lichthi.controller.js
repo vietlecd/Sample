@@ -15,18 +15,11 @@ const getLichThi = async (req, res) => {
     const { courseCode } = req.params;
 
     try {
-        const lichThi = await LichThi.findOne({ 
-            courseCode: courseCode 
-        });
+        const lichThi = await LichThi.findOne({ courseCode: courseCode });
         if (!lichThi) {
             return res.status(404).json({ message: "Lich thi not found." });
         }
-        res.json({ semester: lichThi.semester, 
-            courseCode: lichThi.courseCode, 
-            scheduleDay: lichThi.scheduleDay,
-            scheduleTime: lichThi.scheduleTime,
-            courseName: lichThi.courseName,
-        });
+        res.json({ semester: lichThi.semester, courseCode: lichThi.courseCode, scheduleDay: lichThi.scheduleDay });
     }
     catch (error) {
         res.status(500).json({ message: error.message });
