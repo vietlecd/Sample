@@ -21,11 +21,9 @@ const getLichThi = async (req, res) => {
         if (!lichThi) {
             return res.status(404).json({ message: "Lich thi not found." });
         }
-        res.json({ semester: lichThi.semester, 
-            courseCode: lichThi.courseCode, 
-            scheduleDay: lichThi.scheduleDay,
-            scheduleTime: lichThi.scheduleTime,
-            courseName: lichThi.courseName,
+        res.json({ 
+            midterm: lichThi.midterm,
+            final: lichThi.final
         });
     }
     catch (error) {

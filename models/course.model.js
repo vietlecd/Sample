@@ -20,9 +20,9 @@ const courseSchema = new mongoose.Schema({
         room: {type: String}
     },
     final:{
-        examDay: {type: String, required: true},
-        examTime: {type: String, required: true},
-        room: {type: String, required: true}
+        examDay: {type: String},
+        examTime: {type: String},
+        room: {type: String}
     }
 });
 

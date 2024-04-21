@@ -8,6 +8,7 @@ const courseSemesterSchema = new mongoose.Schema({
     semester: {type: String, ref: 'course'},
     courseCode: {type: String, ref: 'course'},
     credit: {type: String, ref: 'course'},
+    teacherName: {type: String, ref: 'course'},
     grade: {type: Number}
 });
 

@@ -2,12 +2,13 @@ const course = require('../../models/course.model')
 const student = require('../../models/student.model')
 
 module.exports.dashboard = (req, res) => {
-    try {
-        // Thực hiện các thao tác thành công ở đây
-        res.send("Xin chào! Đây là dòng tin nhắn thành công của khoa hoc.");
+  const {mssv} = req.params  
+  try {
+        const ret = this.viewCourseByMSSV(req, res);
+        ret.json();
+        res.send(ret);
     } catch (error) {
-        // Xử lý lỗi khi có lỗi xảy ra
-        res.send("Xin lỗi! Đây là dòng tin nhắn thất bại của tôi.");
+        res.send(400).send();
     }
 };
 
