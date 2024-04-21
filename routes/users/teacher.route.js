@@ -3,14 +3,12 @@ const router = express.Router();
 const teacherController = require('../../controllers/users/teacher.controller');
 const teacherDashboard = require('./teacherdashboard.route');
 const { body } = require('express-validator');
-const verifyUser = require('../../middlewares/verify.user');
 
 // register route
-router.post('/register', [
-    body('name').notEmpty().withMessage('Name is required'),
+router.post('/changePassword', [
     body('email').isEmail().withMessage('Invalid email address'),
-    body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
-], teacherController.register);
+    body('newPassword').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
+], teacherController.changePassword);
 
 // login route
 router.post('/login', [

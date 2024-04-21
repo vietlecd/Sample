@@ -1,3 +1,4 @@
+
 const course = require('../../models/course.model')
 const student = require('../../models/student.model')
 
@@ -41,3 +42,4 @@ exports.viewCourseDescription = async (req, res) => {
       res.status(400).send(e);
   }
 }
+

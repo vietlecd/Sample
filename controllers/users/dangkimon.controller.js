@@ -29,6 +29,7 @@ const addCourse = async (req, res) => {
             examTime: req.body.final.examTime,
             room: req.body.final.room
         }
+
      });
       await newCourse.save();
       res.status(201).json(newCourse);
