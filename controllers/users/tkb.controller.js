@@ -3,7 +3,7 @@ const tkbModel = require("../../models/course.model");
 // Get all lich thi
 const getAlltkb = async (req, res) => {
     try {
-        const tkb = await tkbModel.find();
+        const tkb = await tkbModel.find().select('semester courseCode courseName scheduleDay scheduleWeek scheduleTime');
         res.json(tkb);
     } catch (error) {
         res.json({ message: error });
@@ -21,7 +21,8 @@ const gettkb = async (req, res) => {
         if (!tkb) {
             return res.status(404).json({ message: "Thoi khoa bieu not found." });
         }
-        res.json({ semester: tkb.semester, 
+        res.json({ 
+            semester: tkb.semester, 
             courseCode: tkb.courseCode, 
             scheduleDay: tkb.scheduleDay,
             scheduleTime: tkb.scheduleTime,

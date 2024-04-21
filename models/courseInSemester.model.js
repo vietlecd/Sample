@@ -9,7 +9,11 @@ const courseSemesterSchema = new mongoose.Schema({
     courseCode: {type: String, ref: 'course'},
     credit: {type: String, ref: 'course'},
     teacherName: {type: String, ref: 'course'},
-    grade: {type: Number}
+    grade: {
+        lab: {type: Number, default: null},
+        midterm: {type: Number, default: null},
+        final: {type: Number, default: null}
+    }
 });
 
 const courseSemesterModel = mongoose.model('courseSemester', courseSemesterSchema);

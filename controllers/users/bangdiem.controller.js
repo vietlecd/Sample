@@ -2,9 +2,10 @@ const bangdiemModel = require('../../models/course.model');
 const studentModel = require('../../models/student.model')
 
 module.exports.dashboard = async (req, res) => {
-    try {
-        const bangdiem = await bangdiemModel .find();
-        console.log(bangdiem);
+  const {mssv} = req.params  
+  try {
+        const bangdiem = await this.viewCourseGrade(req, res);
+        console.log(res);
         res.json(bangdiem); // send response to client
     } catch (error) {
         console.error(error);
@@ -19,9 +20,10 @@ exports.viewCourseGrade = async (req, res) => {
         const stud = await studentModel.aggregate([
             {$match: {"mssv": mssv}},
             {$unwind: "$courseEnroll"},
-            //{$match: {"courseEnroll.courseCode": courseCode, "courseEnroll.semseter": semester} },
-            {$project: {"courseEnroll": 1, "_id": 0} }
+            {$replaceRoot: {newRoot: "$courseEnroll"} }
         ]);
+        console.log(stud);
+        res.json(stud);
         if (!stud) {
           return res.status(404).send();
         }
