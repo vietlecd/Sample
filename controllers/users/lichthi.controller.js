@@ -15,9 +15,7 @@ const getLichThi = async (req, res) => {
     const { courseCode } = req.params;
 
     try {
-        const lichThi = await LichThi.findOne({ 
-            courseCode: courseCode 
-        });
+        const lichThi = await LichThi.findOne({ courseCode: courseCode });
         if (!lichThi) {
             return res.status(404).json({ message: "Lich thi not found." });
         }

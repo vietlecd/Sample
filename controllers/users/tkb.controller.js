@@ -3,12 +3,14 @@ const tkbModel = require("../../models/course.model");
 
 const getAlltkb = async (req, res) => {
     try {
-        const tkb = await tkbModel.find();
-        res.json(tkb);
+        // Thực hiện các thao tác thành công ở đây
+        res.send("Xin chào! Đây là dòng tin nhắn thành công của tkb.");
     } catch (error) {
-        res.json({ message: error });
+        // Xử lý lỗi khi có lỗi xảy ra
+        res.send("Xin lỗi! Đây là dòng tin nhắn thất bại của tkb.");
     }
 };
+
 
 const gettkb = async (req, res) => {
     const { courseCode } = req.params;
@@ -38,3 +40,4 @@ const gettkb = async (req, res) => {
 }
 
 module.exports = { getAlltkb, gettkb };
+
