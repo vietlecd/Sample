@@ -1,9 +1,36 @@
-module.exports.dashboard = (req, res) => {
+const LichThi = require("../../models/course.model");
+
+// Get all lich thi
+const getAllLichThi = async (req, res) => {
     try {
-        // Thực hiện các thao tác thành công ở đây
-        res.send("Xin chào! Đây là dòng tin nhắn thành công của lichthi.");
+        const lichThi = await LichThi.find();
+        res.json(lichThi);
     } catch (error) {
-        // Xử lý lỗi khi có lỗi xảy ra
-        res.send("Xin lỗi! Đây là dòng tin nhắn thất bại của lichthi.");
+        res.json({ message: error });
     }
 };
+
+//Get info of a lich thi
+const getLichThi = async (req, res) => {
+    const { courseCode } = req.params;
+
+    try {
+        const lichThi = await LichThi.findOne({ 
+            courseCode: courseCode 
+        });
+        if (!lichThi) {
+            return res.status(404).json({ message: "Lich thi not found." });
+        }
+        res.json({ semester: lichThi.semester, 
+            courseCode: lichThi.courseCode, 
+            courseName: lichThi.courseName,
+            midterm: lichThi.midterm,
+            final: lichThi.final
+        });
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+module.exports = { getAllLichThi, getLichThi };

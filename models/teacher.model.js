@@ -8,22 +8,19 @@ const teacherSchema = new mongoose.Schema({
         type: String,
         default: 'user'
     },
-    deleted: Boolean,
-    teacherProfile: {
-        hoVaTenLot: String,
-        ten: String,
-        ngaySinh: Date,
-        gioiTinh: String,
-        khoa: String,
-        maLop: String,
-        diaChi: String,
-        soDienThoai: String,
-        emailTruongCap: String,
-        namNhapHoc: String,
-        thoiGianDaoTao: String,
-        namHoc: String,
-        nganhDaoTao: String
-    }
+    maSoGiangVien: String,
+    hoVaTenLot: String,
+    ten: String,
+    ngaySinh: Date,
+    gioiTinh: String,
+    khoa: String,
+    maLop: String,
+    diaChi: String,
+    soDienThoai: String,
+    emailTruongCap: String,
+    namHoc: String,
+    nganhGiangDay: String,
+    deleted: Boolean
 });
 
 const teacherModel = mongoose.model('teacher', teacherSchema);
