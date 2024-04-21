@@ -1,5 +1,6 @@
 
 
+
 const courseModel = require("../../models/course.model");
 
 
@@ -13,3 +14,4 @@ const getAllCourse = async (req, res) => {
 };
 
 module.exports = { getAllCourse };
+

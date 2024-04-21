@@ -26,6 +26,7 @@ const getLichThi = async (req, res) => {
             courseName: lichThi.courseName,
             midterm: lichThi.midterm,
             final: lichThi.final
+
         });
     }
     catch (error) {

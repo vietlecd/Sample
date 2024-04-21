@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+
 const couSem = require('./courseInSemester.model.js').Schema
 const studentSchema = new mongoose.Schema(
   {
@@ -49,6 +50,7 @@ const studentSchema = new mongoose.Schema(
           timestamps: true // Enable createdAt and updatedAt fields
       }
   );
+
 
 const studentModel = mongoose.model('student', studentSchema);
 module.exports = studentModel;

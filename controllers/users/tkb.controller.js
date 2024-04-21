@@ -10,7 +10,6 @@ const getAlltkb = async (req, res) => {
     }
 };
 
-
 const gettkb = async (req, res) => {
     const { courseCode } = req.params;
 
@@ -30,6 +29,7 @@ const gettkb = async (req, res) => {
             classroom:tkb.classroom,
             scheduleWeek: tkb.scheduleWeek,
             tchocphi:tkb.tchocphi
+
         });
     }
     catch (error) {
