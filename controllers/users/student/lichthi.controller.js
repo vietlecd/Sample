@@ -4,7 +4,17 @@ const LichThi = require("../../../models/course.model");
 const getAllLichThi = async (req, res) => {
     try {
         const lichThi = await LichThi.find();
-        res.json(lichThi);
+        if (!lichThi) {
+            return res.status(404).json({ message: "Lich thi not found." });
+        }
+        const result = lichThi.map(lich => ({
+            semester: lich.semester, 
+            courseCode: lich.courseCode, 
+            courseName: lich.courseName,
+            midterm: lich.midterm,
+            final: lich.final
+        }));
+        res.json(result);
     } catch (error) {
         res.json({ message: error });
     }
@@ -12,16 +22,19 @@ const getAllLichThi = async (req, res) => {
 
 //Get info of a lich thi
 const getLichThi = async (req, res) => {
-    const { courseCode } = req.params;
+    const { semester } = req.params;
 
     try {
         const lichThi = await LichThi.findOne({ 
-            courseCode: courseCode 
+            semester : semester 
         });
         if (!lichThi) {
             return res.status(404).json({ message: "Lich thi not found." });
         }
         res.json({ 
+            semester: lichThi.semester, 
+            courseCode: lichThi.courseCode, 
+            courseName: lichThi.courseName,
             midterm: lichThi.midterm,
             final: lichThi.final
         });

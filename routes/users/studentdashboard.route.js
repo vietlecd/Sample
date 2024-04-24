@@ -14,10 +14,10 @@ const khoahoc = require('../../controllers/users/student/khoahoc.controller');
 router.get('/thongtinsinhvien', thongtinSinhVien.dashboard);
 router.get('/thongtindaotao', thongtinDaoTao.getAllDaoTao);
 router.get('/tkb', tkb.getAlltkb);
-router.get('/tkb/:courseCode', tkb.gettkb);
+router.get('/tkb/:semester', tkb.gettkb);
 router.get('/lichthi', lichthi.getAllLichThi);
-router.get('/lichthi/:courseCode', lichthi.getLichThi);
-router.get('/bangdiem', bangdiem.dashboard);
+router.get('/lichthi/:semester', lichthi.getLichThi);
+router.get('/bangdiem/:semester', bangdiem.getbangdiem);
 router.get('/khoahoc',khoahoc.dashboard);
 
 router.use('/dangkimon', dangkimonRoute);
