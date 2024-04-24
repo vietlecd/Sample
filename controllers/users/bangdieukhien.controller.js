@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const student = require('../../models/student.model')
 const course = require('../../models/course.model')
 const teacher = require('../../models/teacher.model')
-module.exports.dashboard = (req, res) => {
+module.exports.dashboard = async (req, res) => {
     const {msgv} = req.params
     try {
         // Thực hiện các thao tác thành công ở đây
@@ -29,7 +29,7 @@ module.exports.dashboard = (req, res) => {
 
 
 //View all student studying a course
-exports.viewStudentEnrollCourse = async (req, res) => {
+module.exports.viewStudentEnrollCourse = async (req, res) => {
     const {courseCode, semester} = req.params;
     try {
       const find_filter = {"courseEnroll.courseCode": courseCode, "courseEnroll.semseter": semester}

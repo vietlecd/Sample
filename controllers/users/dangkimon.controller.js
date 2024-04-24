@@ -2,71 +2,69 @@
 const course = require('../../models/course.model');
 const student = require('../../models/student.model')
 
-const addCourse = async (req, res) => {
-    // Logic to add a new course to the database
-    try {
-      const newCourse = new course({
-        semester: req.body.semester,
-        courseCode: req.body.courseCode,
-        name: req.body.name,
-        credit: req.body.credit,
-        scheduleDay: req.body.scheduleDay,
-        scheduleTime: req.body.scheduleTime,
-        scheduleWeek: req.body.scheduleWeek,
-        classroom: {
-            room: req.body.classroom.room,
-            building: req.body.classroom.building,
-        },
-        instructorName: req.body.instructorName,
-        teacherCode: req.body.teacherCode,
-        midterm:{
-            examDay: req.body.midterm.examDay,
-            examTime: req.body.midterm.examTime,
-            room: req.body.midterm.room
-        },
-        final:{
-            examDay: req.body.final.examDay,
-            examTime: req.body.final.examTime,
-            room: req.body.final.room
-        }
-
-     });
-      await newCourse.save();
-      res.status(201).json(newCourse);
-    } catch (error) {
-      res.status(400).send(error.message);
-    }
-};
-
-//Add a course matching its code to a student
-exports.addCoursetoStudent = async (req, res) => {
-  const { mssv, courseCode, semester } = req.params;
+const viewAvailableCourse = async (req, res) => {
   try {
-      const course_match = await course.findOne({courseCode: courseCode, semester: semester}); 
+    const select_filter = {
+      midterm: 0,
+      final: 0
+    }
+    const courseRet = await course.find().select(select_filter)
+    if (!courseRet) {
+      return res.status(404).send();
+    }
+    res.json(courseRet);
+  } catch (e) {
+    res.status(400).send(e);
+}
+}
+
+//Add a course registered
+const addCourseReg = async (req, res) => {
+
+  try {
+      const course_match = await course.findOne({courseCode: req.body.courseCode}); 
       const newCouSem = {
           courseId: course_match._id,
           semester: course_match.semester,
-          courseCode: course_match.courseCode
+          courseCode: course_match.courseCode,
+          teacherName: course_match.instructorName
       }
-      const find_filter = {mssv: mssv};
-      const update_filter = {$push: {courseEnroll: newCouSem} };
-      const option = {};
+      const find_filter = {mssv: req.body.mssv};
+      const update_filter = {$push: {courseReg: newCouSem} };
+      const option = {new: true};
       const courseRet = await student.updateOne(find_filter, update_filter, option);
       if (!courseRet) {
         return res.status(404).send();
       }
-      res.send(courseRet);
+      res.json(courseRet);
     } catch (e) {
       res.status(400).send(e);
   }
 }
 
-//Delete a courses enrolled by a student
-exports.deleteCoursefromStudent = async (req, res) => {
-  const { mssv, courseCode, semester } = req.params;
+//Delete a course registered by a student
+const deleteCourseReg = async (req, res) => {
+
   try {
-      const find_filter = {mssv: mssv};
-      const update_filter = {$pull: {courseEnroll: {courseCode: courseCode, semester: semester}} };
+      const find_filter = {mssv: req.body.mssv};
+      const update_filter = {$pull: {courseReg: {"courseCode": req.body.courseCode}} };
+      const option = {};
+      const courseRet = await student.updateMany(find_filter, update_filter, option);
+      if (!courseRet) {
+        return res.status(404).send();
+      }
+      res.json(courseRet);
+    } catch (e) {
+      res.status(400).send(e);
+  }
+}
+
+//Delete all course registered by a student
+const deleteAllCourseReg = async (req, res) => {
+
+  try {
+      const find_filter = {mssv: req.body.mssv};
+      const update_filter = {$set: {courseReg: []} };
       const option = {};
       const courseRet = await student.updateMany(find_filter, update_filter, option);
       if (!courseRet) {
@@ -78,6 +76,34 @@ exports.deleteCoursefromStudent = async (req, res) => {
   }
 }
 
+const confirmReg = async (req, res) => {
+  try {
+    const find_filter = {mssv: req.body.mssv};
+    const update_option = {};
+    const stu = await student.findOne(find_filter)
+
+    //Add all registered course to enrolled course
+    const enroll_update = {$push: {courseEnroll: {$each: stu.courseReg}}}
+    const addEnroll = await student.updateOne(find_filter, enroll_update, update_option)
+    if (!addEnroll){
+      return res.status(404).send();
+    }
+    //Delete old registered courses
+    const reg_update = {$set: {courseReg: []} };
+    const courseRet = await student.updateOne(find_filter, reg_update, update_option);
+    if (!courseRet) {
+      return res.status(404).send();
+    }
+    res.json(courseRet);
+  } catch (e) {
+    res.status(400).send(e);
+  }
+}
+
 module.exports = {
-    addCourse
+    viewAvailableCourse,
+    addCourseReg,
+    deleteCourseReg,
+    deleteAllCourseReg,
+    confirmReg
 }

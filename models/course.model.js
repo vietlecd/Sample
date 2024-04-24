@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const courseSchema = new mongoose.Schema({
     semester: { type: String, required: true },
-    courseCode: { type: String, required: true},
+    courseCode: { type: String, unique: true, required: true},
     name: {type: String, required: true},
     credit: {type: String, required: true},
     scheduleDay: { type: String, required: true },
@@ -13,7 +13,7 @@ const courseSchema = new mongoose.Schema({
         building: {type: String, required: true},
     },
     instructorName: { type: String, required: true },
-    teacherCode: {type: String, ref: 'teacher', required: true },
+    teacherCode: {type: String, required: true },
     midterm:{
         examDay: {type: String},
         examTime: {type: String},

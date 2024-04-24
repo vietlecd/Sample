@@ -8,6 +8,7 @@ const courseSchema = new mongoose.Schema({
     courseCode: { type: String, required: true},
     name: {type: String, required: true},
     credit: {type: String, required: true},
+    teacherCode: {type: String, ref: 'teacher', required: true },
 });
 
 const courseModel = mongoose.model('course', courseSchema);

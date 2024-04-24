@@ -11,7 +11,8 @@ const studentSchema = new mongoose.Schema(
     },
     mssv: { 
         type: String, 
-        require: false
+        require: true, 
+        unique: true
     },
     private_info:{
         ngaySinh: Date,
@@ -26,16 +27,6 @@ const studentSchema = new mongoose.Schema(
         emailTruongCap: String,
         emailLienLac: String,
     },
-    role: {
-        type: String,
-        default: 'student'
-    },
-    
-    passwordChanged: {
-        type: Boolean,
-        default: false
-    },
-
       // Training information
     training_info:{
         namNhapHoc: String,
@@ -53,6 +44,9 @@ const studentSchema = new mongoose.Schema(
     },
     courseEnroll: {
         type: [couSem],
+    },
+    courseReg: {
+        type: [couSem]
     }
 }, 
     { 

@@ -3,7 +3,8 @@ const courseSemesterSchema = new mongoose.Schema({
     courseId: {
         type: mongoose.Types.ObjectId,
         ref: 'course',
-        required: true
+        required: true,
+        unique: true
     },
     semester: {type: String, ref: 'course'},
     courseCode: {type: String, ref: 'course'},

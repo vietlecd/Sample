@@ -1,21 +1,8 @@
-
 const course = require('../../models/course.model')
 const student = require('../../models/student.model')
 
-module.exports.dashboard = (req, res) => {
-  const {mssv} = req.params  
-  try {
-        const ret = this.viewCourseByMSSV(req, res);
-        ret.json();
-        res.send(ret);
-    } catch (error) {
-        res.send(400).send();
-    }
-};
-
-//View all courses in which a student enrolled
-exports.viewCourseByMSSV = async (req, res) => {
-    const { mssv } = req.params;
+module.exports.dashboard = async (req, res) => {
+  const { mssv } = req.params;
     try {
         const st = await student.findOne({ "mssv": mssv }).lean();
         const courseRet = st.courseEnroll;
@@ -28,11 +15,12 @@ exports.viewCourseByMSSV = async (req, res) => {
     }
 };
 
+
 //View a course's description
-exports.viewCourseDescription = async (req, res) => {
-    const {courseCode, semester} = req.params;
+module.exports.viewCourseDescription = async (req, res) => {
+    const {courseCode} = req.params;
     try {
-      const find_filter = {"courseCode": courseCode, "semseter": semester}
+      const find_filter = {"courseCode": courseCode}
       const courseRet = await course.findOne(find_filter);
       if (!courseRet) {
         return res.status(404).send();
@@ -42,4 +30,3 @@ exports.viewCourseDescription = async (req, res) => {
       res.status(400).send(e);
   }
 }
-

@@ -1,5 +1,6 @@
 // Import necessary modules and models
 const Course = require('../../models/course.model');
+const courseReg = require('../../models/courseInSemester.model');
 
 // Get all courses
 const getCourses = async (req, res) => {
@@ -19,11 +20,13 @@ const addCourse = async (req, res) => {
     const newCourse = new Course({
         semester: req.body.semester,
         courseCode: req.body.courseCode,
+        name: req.body.name,
+        credit: req.body.credit,
         scheduleDay: req.body.scheduleDay,
         scheduleTime: req.body.scheduleTime,
         classroom: req.body.classroom,
-        studentCount: req.body.studentCount,
-        instructorName: req.body.instructorName
+        instructorName: req.body.instructorName,
+        teacherCode: req.body.teacherCode
    });
     await newCourse.save();
     res.status(201).json(newCourse);
@@ -31,6 +34,7 @@ const addCourse = async (req, res) => {
     res.status(400).send(error.message);
   }
 };
+
 
 // Update an existing course
 const updateCourse = async (req, res) => {

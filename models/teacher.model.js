@@ -9,17 +9,9 @@ const teacherSchema = new mongoose.Schema({
     },
     msgv: {
         type: String,
-        require: false,
+        require: true,
+        unique: true
     },
-    role: {
-        type: String,
-        default: 'teacher'
-    },
-    passwordChanged: {
-        type: Boolean,
-        default: false
-    },
-
     private_info: {
         ngaySinh: Date, 
         gioiTinh: String,
@@ -33,12 +25,8 @@ const teacherSchema = new mongoose.Schema({
         sodienthoai: Number,
         emailtruongcap: String,
         emaillienlac: String 
-    }},
-    { 
-        timestamps: true // Enable createdAt and updatedAt fields
     }
-
-);
+});
 
 const teacherModel = mongoose.model('teacher', teacherSchema);
 module.exports = teacherModel;
