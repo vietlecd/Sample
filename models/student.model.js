@@ -14,6 +14,7 @@ const studentSchema = new mongoose.Schema(
         require: true, 
         unique: true
     },
+    image: { type: String, required: false },
     private_info:{
         ngaySinh: Date,
         gioiTinh: { type: String, enum: ['Nam', 'Nu'] },

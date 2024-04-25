@@ -12,11 +12,11 @@ const getAlltkb = async (req, res) => {
 
 //Get info of a lich thi
 const gettkb = async (req, res) => {
-    const { courseCode } = req.params;
+    const { semster } = req.params;
 
     try {
         const tkb = await tkbModel.findOne({ 
-            courseCode: courseCode 
+            semster: semster
         });
         if (!tkb) {
             return res.status(404).json({ message: "Thoi khoa bieu not found." });
@@ -27,6 +27,10 @@ const gettkb = async (req, res) => {
             scheduleDay: tkb.scheduleDay,
             scheduleTime: tkb.scheduleTime,
             courseName: tkb.courseName,
+            sotinhchi: tkb.sotinhchi,
+            classroom:tkb.classroom,
+            scheduleWeek: tkb.scheduleWeek,
+            tinhchihocphi:tkb.tinhchihocphi
         });
     }
     catch (error) {
