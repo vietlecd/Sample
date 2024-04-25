@@ -1,31 +1,28 @@
 const mongoose = require('mongoose')
 const student = require('../../../models/student.model')
 const course = require('../../../models/course.model')
-const teacher = require('../../../models/teacher.model')
+
 module.exports.dashboard = async (req, res) => {
-    const {msgv} = req.params
+    
     try {
+        const {msgv} = req.user;
         // Thực hiện các thao tác thành công ở đây
-        const match_filter = {"teacherCode": msgv}
-        const project_filter = {
-            "instructorName": 0, 
-            "teacherCode": 0, 
-            "midterm": 0, 
-            "final": 0
-        }
-        const cou = course.aggregate([
-            {$match: match_filter},
-            {$project: project_filter}
-        ]);
+        const cou = await course.findOne({
+            msgv: msgv
+        });
         if (!cou) {
             return res.status(404).send();
           }
-        res.send(cou);
+        res.json({
+          semester: cou.semester,
+          courseCode: cou.courseCode,
+          credit: cou.credit
+        })
     } catch (error) {
         // Xử lý lỗi khi có lỗi xảy ra
         res.send("Xin lỗi! Đây là dòng tin nhắn thất bại của bangdieukhien.");
     }
-};
+  };
 
 
 //View all student studying a course
@@ -68,7 +65,7 @@ exports.countStudentEnrollCourse = async (req, res) => {
 
 //Update grade of a course for a student
 exports.updateGradeforStudent = async (req, res) => {
-    const {mssv, courseCode, semester, lab, midterm, final} = req.params;
+    const {mssv, courseCode, semester, lab, midterm, final} = req.body;
     try {
         const grade = {
             "lab": lab,

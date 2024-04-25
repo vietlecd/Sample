@@ -20,6 +20,7 @@ const addCourse = async (req, res) => {
         semester: req.body.semester,
         courseCode: req.body.courseCode,
         courseName: req.body.name,
+        msgv: req.body.msgv,
         credit: req.body.credit,
         scheduleDay: req.body.scheduleDay,
         scheduleTime: req.body.scheduleTime,
@@ -41,7 +42,6 @@ const addCourse = async (req, res) => {
     res.status(400).send(error.message);
   }
 };
-
 
 // Update an existing course
 const updateCourse = async (req, res) => {

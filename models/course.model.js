@@ -4,6 +4,7 @@ const courseSchema = new mongoose.Schema({
     semester: { type: String, required: false },
     courseCode: { type: String, required: false },
     courseName: {type: String, required: false },
+    msgv: {type: String, required: false },
     credit: {type: String, required: false },
     scheduleDay: { type: String, required: false },
     scheduleTime: { type: String, required: false },
