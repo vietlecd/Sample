@@ -14,7 +14,15 @@ const studentSchema = new mongoose.Schema(
         require: true, 
         unique: true
     },
+    role: {
+        type: String,
+        default: 'student'
+    },
     image: { type: String, required: false },
+    passwordChanged: {
+        type: Boolean,
+        default: false
+    },
     private_info:{
         ngaySinh: Date,
         gioiTinh: { type: String, enum: ['Nam', 'Nu'] },

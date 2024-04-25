@@ -1,10 +1,11 @@
 const thongSinhVien = require('../../../models/student.model');
 
 module.exports.dashboard = async (req, res) => {
-  const {mssv} = req.params  
+  const {mssv} = req.user; 
   try {
-        const thongtinsinhvien = await thongSinhVien.find();
-        console.log(thongtinsinhvien);
+        const thongtinsinhvien = await thongSinhVien.find({
+          "mssv": mssv
+        });
         res.json(thongtinsinhvien); // send response to client
     } catch (error) {
         console.error(error);
@@ -12,16 +13,16 @@ module.exports.dashboard = async (req, res) => {
     }
 };
 
-exports.viewOneStudentInfo = async (req, res) => {
-    const {mssv} = req.params
-    try {
-        const stu_find = {"mssv": mssv};
-        const stuRet = await student.findOne(stu_find);
-        if (!stuRet) {
-          return res.status(404).send();
-        }
-        res.send(stuRet);
-      } catch (e) {
-        res.status(400).send(e);
-      }
-};
+// exports.viewOneStudentInfo = async (req, res) => {
+//     const {mssv} = req.params
+//     try {
+//         const stu_find = {"mssv": mssv};
+//         const stuRet = await student.findOne(stu_find);
+//         if (!stuRet) {
+//           return res.status(404).send();
+//         }
+//         res.send(stuRet);
+//       } catch (e) {
+//         res.status(400).send(e);
+//       }
+// };

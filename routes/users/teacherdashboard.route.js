@@ -5,7 +5,7 @@ const bangdieukhien = require('../../controllers/users/teacher/bangdieukhien.con
 //const khoahoc = require('../../controllers/users/teacher/khoahoc.controller');
 const SinhVien = require('../../controllers/users/teacher/SinhVien.controller');
 router.use('/thongtingiangvien',thongtinGiangVien.dashboard);
-router.use('/bangdieukhien',bangdieukhien.dashboard);
+router.get('/bangdieukhien',bangdieukhien.dashboard);
 //router.use('/khoahoc',khoahoc.dashboard);
 router.use('/SinhVien',SinhVien.dashboard);
 

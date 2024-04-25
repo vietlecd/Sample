@@ -1,22 +1,13 @@
 const tkbModel = require("../../../models/course.model");
 
-// Get all lich thi
-const getAlltkb = async (req, res) => {
-    try {
-        const tkb = await tkbModel.find().select('semester courseCode courseName scheduleDay scheduleWeek scheduleTime');
-        res.json(tkb);
-    } catch (error) {
-        res.json({ message: error });
-    }
-};
-
 //Get info of a lich thi
 const gettkb = async (req, res) => {
-    const { semster } = req.params;
-
+    const { semster } = req.body;
+    const { mssv } = req.user;
     try {
         const tkb = await tkbModel.findOne({ 
-            semster: semster
+            semster: semster,
+            mssv: mssv
         });
         if (!tkb) {
             return res.status(404).json({ message: "Thoi khoa bieu not found." });
@@ -38,4 +29,4 @@ const gettkb = async (req, res) => {
     }
 }
 
-module.exports = { getAlltkb, gettkb };
+module.exports = { gettkb };

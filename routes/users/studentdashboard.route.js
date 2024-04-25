@@ -18,8 +18,7 @@ const khoahoc = require('../../controllers/users/student/khoahoc.controller');
 //get all route
 router.get('/thongtinsinhvien', thongtinSinhVien.dashboard);
 router.get('/thongtindaotao', thongtinDaoTao.getAllDaoTao);
-router.get('/tkb', tkb.getAlltkb);
-router.get('/tkb/:courseCode', tkb.gettkb);
+router.get('/tkb', tkb.gettkb);
 router.get('/lichthi', lichthi.getAllLichThi);
 router.get('/lichthi/:courseCode', lichthi.getLichThi);
 router.get('/bangdiem', bangdiem.getbangdiem);

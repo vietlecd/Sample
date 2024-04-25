@@ -11,7 +11,13 @@ router.post('/login', [
     body('password').notEmpty().withMessage('Password is required'),
 ], studentController.login);
 
-router.use('/dashboard', studentDashboard);
+// change password route
+router.post('/changepassword', [
+    body('email').isEmail().withMessage('Invalid email address'),
+    body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
+], studentController.changePassword);
+
+router.use('/dashboard', authenticate, studentDashboard);
 
 
 

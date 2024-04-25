@@ -22,6 +22,7 @@ const viewAvailableCourse = async (req, res) => {
 const addCourseReg = async (req, res) => {
 
   try {
+      const mssv = req.user.mssv;
       const course_match = await course.findOne({courseCode: req.body.courseCode}); 
       const newCouSem = {
           courseId: course_match._id,
@@ -29,7 +30,7 @@ const addCourseReg = async (req, res) => {
           courseCode: course_match.courseCode,
           teacherName: course_match.instructorName
       }
-      const find_filter = {mssv: req.body.mssv};
+      const find_filter = {mssv: mssv};
       const update_filter = {$push: {courseReg: newCouSem} };
       const option = {new: true};
       const courseRet = await student.updateOne(find_filter, update_filter, option);
@@ -78,7 +79,7 @@ const deleteAllCourseReg = async (req, res) => {
 
 const confirmReg = async (req, res) => {
   try {
-    const find_filter = {mssv: req.body.mssv};
+    const find_filter = {mssv: req.user.mssv};
     const update_option = {};
     const stu = await student.findOne(find_filter)
 

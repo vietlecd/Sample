@@ -13,6 +13,10 @@ const teacherSchema = new mongoose.Schema({
         require: true,
         unique: true
     },
+    role: {
+        type: String,
+        default: 'teacher'
+    },
     private_info: {
         ngaySinh: Date, 
         gioiTinh: String,
