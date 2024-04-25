@@ -11,7 +11,7 @@ router.post('/login', [
     body('password').notEmpty().withMessage('Password is required'),
 ], studentController.login);
 
-router.use('/dashboard', authenticate, studentDashboard);
+router.use('/dashboard', studentDashboard);
 
 
 

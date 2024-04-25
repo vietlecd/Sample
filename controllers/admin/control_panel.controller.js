@@ -1,6 +1,5 @@
 // Import necessary modules and models
 const Course = require('../../models/course.model');
-const courseReg = require('../../models/courseInSemester.model');
 
 // Get all courses
 const getCourses = async (req, res) => {
@@ -20,13 +19,21 @@ const addCourse = async (req, res) => {
     const newCourse = new Course({
         semester: req.body.semester,
         courseCode: req.body.courseCode,
-        name: req.body.name,
+        courseName: req.body.name,
         credit: req.body.credit,
         scheduleDay: req.body.scheduleDay,
         scheduleTime: req.body.scheduleTime,
+        scheduleWeek: req.body.scheduleWeek,
+        sotinhchi: req.body.sotinhchi,
+        tinhchihocphi: req.body.tinhchihocphi,
+        STT: req.body.STT,
         classroom: req.body.classroom,
         instructorName: req.body.instructorName,
-        teacherCode: req.body.teacherCode
+        studentEnroll: req.body.studentEnroll,
+        midterm: req.body.midterm,
+        final: req.body.final,
+        soluong: req.body.soluong,
+        bangdiem: req.body.bangdiem,
    });
     await newCourse.save();
     res.status(201).json(newCourse);
@@ -41,12 +48,22 @@ const updateCourse = async (req, res) => {
   try {
     const courseUpdate = {
       semester: req.body.semester,
-      courseCode: req.body.courseCode,
-      scheduleDay: req.body.scheduleDay,
-      scheduleTime: req.body.scheduleTime,
-      classroom: req.body.classroom,
-      studentCount: req.body.studentCount,
-      instructorName: req.body.instructorName
+        courseCode: req.body.courseCode,
+        courseName: req.body.name,
+        credit: req.body.credit,
+        scheduleDay: req.body.scheduleDay,
+        scheduleTime: req.body.scheduleTime,
+        scheduleWeek: req.body.scheduleWeek,
+        sotinhchi: req.body.sotinhchi,
+        tinhchihocphi: req.body.tinhchihocphi,
+        STT: req.body.STT,
+        classroom: req.body.classroom,
+        instructorName: req.body.instructorName,
+        studentEnroll: req.body.studentEnroll,
+        midterm: req.body.midterm,
+        final: req.body.final,
+        soluong: req.body.soluong,
+        bangdiem: req.body.bangdiem,
     };
 
     const course = await Course.findOneAndUpdate({ courseCode: req.params.courseCode }, courseUpdate, { new: true });

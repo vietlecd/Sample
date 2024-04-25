@@ -94,6 +94,19 @@ const confirmReg = async (req, res) => {
     if (!courseRet) {
       return res.status(404).send();
     }
+    
+    // Save the enrolled courses to the course collection
+    const enrollCourses = stu.courseReg.map(course => ({
+      courseId: course.courseId,
+      semester: course.semester,
+      courseCode: course.courseCode,
+      teacherName: course.teacherName
+    }));
+    const saveEnrollCourses = await course.insertMany(enrollCourses);
+    if (!saveEnrollCourses) {
+      return res.status(500).send();
+    }
+    
     res.json(courseRet);
   } catch (e) {
     res.status(400).send(e);
