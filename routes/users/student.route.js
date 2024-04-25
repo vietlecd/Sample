@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const studentController = require('../../controllers/users/student.controller');
+const studentController = require('../../controllers/users/student/student.controller');
 const studentDashboard = require('./studentdashboard.route');
 const { body } = require('express-validator');
 const verifyUser = require('../../middlewares/verify.user');
@@ -19,6 +19,7 @@ router.post('/login', [
 ], studentController.login);
 
 router.use('/dashboard', studentDashboard);
+
 
 
 module.exports = router;

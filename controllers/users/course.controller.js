@@ -1,7 +1,7 @@
 const courseModel = require('../../models/course.model.js');
 const student = require('../../models/student.model.js');
 const teacher = require('../../models/teacher.model.js');
-const courseRegister = require('../../models/courseInSemester.model.js')
+const courseRegister = require('../../models/courseRegister.model.js')
 
 module.exports.dashboard = (req, res) => {
     try {
@@ -15,19 +15,31 @@ module.exports.dashboard = (req, res) => {
     }
 };
 
+//Add a course by its oid to a student
+//Note: when passing course's object id as course_oid_string, set the object id to be string
+exports.addCoursetoStudentbyOID = async (req, res) => {
+    const { mssv, course_oid_string } = req.params;
+    try {
+        const st = await student.findOne({mssv: mssv});
+        const ce = st.courseEnroll;
+        const courseRet = ce.push(new mongoose.Types.ObjectId(course_oid_string));
+        st.save();
+        if (!courseRet) {
+          return res.status(404).send();
+        }
+        res.send(courseRet);
+      } catch (e) {
+        res.status(400).send(e);
+    }
+}
 
 //Add a course matching its code to a student
-exports.addCoursetoStudent = async (req, res) => {
-    const { mssv, courseCode, semester } = req.params;
+exports.addCoursetoStudentbyCode = async (req, res) => {
+    const { mssv, courseCode } = req.params;
     try {
-        const course_match = await courseModel.findOne({courseCode: courseCode, semester: semester}); 
-        const newCouSem = {
-            courseId: course_match._id,
-            semester: course_match.semester,
-            courseCode: course_match.courseCode
-        }
         const find_filter = {mssv: mssv};
-        const update_filter = {$push: {courseEnroll: newCouSem} };
+        const course_match = await courseModel.findOne({courseCode: courseCode}); 
+        const update_filter = {$push: {courseEnroll: course_match._id} };
         const option = {};
         const courseRet = await student.updateOne(find_filter, update_filter, option);
         if (!courseRet) {
@@ -39,12 +51,32 @@ exports.addCoursetoStudent = async (req, res) => {
     }
 }
 
-//Delete a courses enrolled by a student
-exports.deleteCoursefromStudent = async (req, res) => {
-    const { mssv, courseCode, semester } = req.params;
+//Delete a course by its object id
+exports.deleteCoursebyOID = async (req, res) => {
+    const { mssv, course_oid_string } = req.params;
     try {
         const find_filter = {mssv: mssv};
-        const update_filter = {$pull: {"courseEnroll": {"courseCode": courseCode, semester: semester}} };
+        const update_filter = {$pull: {courseEnroll: new mongoose.Types.ObjectId(course_oid_string)} };
+        const option = {};
+        const courseRet = await student.updateOne(find_filter, update_filter, option);
+        if (!courseRet) {
+          return res.status(404).send();
+        }
+        res.send(courseRet);
+      } catch (e) {
+        res.status(400).send(e);
+    }
+}
+
+//Delete all courses matching a certain course code
+exports.deleteCoursebyCode = async (req, res) => {
+    const { mssv, courseCode } = req.params;
+    try {
+        const find_filter = {mssv: mssv};
+        //Return an array of course's ObjectID with inputed courseCode
+        const coid_with_code = await courseModel.find({courseCode: courseCode}).select('_id'); 
+        //Pull all courseEnroll OID matching one of the element in the array
+        const update_filter = {$pull: {courseEnroll: {$in: coid_with_code}} };
         const option = {};
         const courseRet = await student.updateMany(find_filter, update_filter, option);
         if (!courseRet) {
@@ -56,12 +88,13 @@ exports.deleteCoursefromStudent = async (req, res) => {
     }
 }
 
-//View all courses in which a student enrolled
+//View all courses' info which a student enrolled
 exports.viewCourseByMSSV = async (req, res) => {
     const { mssv } = req.params;
     try {
         const st = await student.findOne({ mssv: mssv });
-        const courseRet = st.courseEnroll;
+        const ce = st.courseEnroll;
+        const courseRet = await course.find({_id: { $in: ce}});
         if (!courseRet) {
           return res.status(404).send();
         }
@@ -70,65 +103,4 @@ exports.viewCourseByMSSV = async (req, res) => {
         res.status(400).send(e);
     }
 };
-
-//View a course's description
-exports.viewCourseDescription = async (req, res) => {
-    const {courseCode, semester} = req.params;
-    try {
-      const find_filter = {"courseCode": courseCode, "semseter": semester}
-      const courseRet = await course.findOne(find_filter);
-      if (!courseRet) {
-        return res.status(404).send();
-      }
-      res.send(courseRet);
-    } catch (e) {
-      res.status(400).send(e);
-  }
-}
-
-//View a teacher's all teaching courses
-exports.viewCoursebyMSGV = async (req, res) => {
-  const { msgv } = req.params;
-  try {
-      const tea = await course.find({"msgv": msgv });
-      if (!tea) {
-        return res.status(404).send();
-      }
-      res.send(tea);
-    } catch (e) {
-      res.status(400).send(e);
-  }
-};
-
-//View all student studying a course
-exports.viewStudentEnrollCourse = async (req, res) => {
-  const {courseCode, semester} = req.params;
-  try {
-    const find_filter = {"courseEnroll.courseCode": courseCode, "courseEnroll.semseter": semester}
-    const courseRet = await course.findOne(find_filter);
-    if (!courseRet) {
-      return res.status(404).send();
-    }
-    res.send(courseRet);
-  } catch (e) {
-    res.status(400).send(e);
-  }
-}
-
-//Update grade of a course for a student
-exports.updateGradeforStudent = async (req, res) => {
-  const {mssv, courseCode, semester, grade} = req.params;
-  try {
-    const stu_find = {"mssv": mssv, "courseEnroll.courseCode": courseCode, "courseEnroll.semseter": semester};
-    const stu_update = {$set: {"courseEnroll.$.grade": grade}}
-    const stu_option = {};
-    const courseRet = await student.updateOne(stu_find, stu_update, stu_option);
-    if (!courseRet) {
-      return res.status(404).send();
-    }
-    res.send(courseRet);
-  } catch (e) {
-    res.status(400).send(e);
-  }
-}
 

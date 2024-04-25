@@ -1,6 +1,6 @@
 // Add a new course
-const course = require('../../models/course.model');
-const student = require('../../models/student.model')
+const course = require('../../../models/course.model');
+const student = require('../../../models/student.model')
 
 const viewAvailableCourse = async (req, res) => {
   try {

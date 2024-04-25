@@ -1,5 +1,5 @@
-const course = require('../../models/course.model')
-const student = require('../../models/student.model')
+const course = require('../../../models/course.model')
+const student = require('../../../models/student.model')
 
 module.exports.dashboard = async (req, res) => {
   const { mssv } = req.params;

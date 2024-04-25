@@ -1,4 +1,4 @@
-const thongtinGiangVien = require('../../models/teacher.model');
+const thongtinGiangVien = require('../../../models/teacher.model');
 
 module.exports.dashboard = async (req, res) => {
     try {

@@ -4,15 +4,15 @@ const router = express.Router();
 
 const dangkimonRoute = require('./dangkimon.route')
 
-const thongtinSinhVien = require('../../controllers/users/thongtinsv.controller');
-const thongtinDaoTao = require('../../controllers/users/thongtindt.controller');
-const tkb = require('../../controllers/users/tkb.controller');
-const bangdiem = require('../../controllers/users/bangdiem.controller');
-const lichthi = require('../../controllers/users/lichthi.controller');
-const dangkimonController = require('../../controllers/users/dangkimon.controller');
-const khoahoc = require('../../controllers/users/khoahoc.controller');
+const thongtinSinhVien = require('../../controllers/users/student/thongtinsv.controller');
+const thongtinDaoTao = require('../../controllers/users/student/thongtindt.controller');
+const tkb = require('../../controllers/users/student/tkb.controller');
+const bangdiem = require('../../controllers/users/student/bangdiem.controller');
+const lichthi = require('../../controllers/users/student/lichthi.controller');
+const dangkimonController = require('../../controllers/users/student/dangkimon.controller');
+const khoahoc = require('../../controllers/users/student/khoahoc.controller');
 router.get('/thongtinsinhvien', thongtinSinhVien.dashboard);
-router.get('/thongtindaotao', thongtinDaoTao.dashboard);
+router.get('/thongtindaotao', thongtinDaoTao.getAllDaoTao);
 router.get('/tkb', tkb.getAlltkb);
 router.get('/tkb/:courseCode', tkb.gettkb);
 router.get('/lichthi', lichthi.getAllLichThi);

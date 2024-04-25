@@ -1,4 +1,4 @@
-const tkbModel = require("../../models/course.model");
+const tkbModel = require("../../../models/course.model");
 
 // Get all lich thi
 const getAlltkb = async (req, res) => {

@@ -1,4 +1,4 @@
-const LichThi = require("../../models/course.model");
+const LichThi = require("../../../models/course.model");
 
 // Get all lich thi
 const getAllLichThi = async (req, res) => {

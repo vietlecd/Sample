@@ -1,4 +1,4 @@
-const SinhVienModel = require('../../models/student.model');
+const SinhVienModel = require('../../../models/student.model');
 
 module.exports.dashboard = async (req, res) => {
     try {

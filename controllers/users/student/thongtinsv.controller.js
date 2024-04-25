@@ -1,4 +1,4 @@
-const thongSinhVien = require('../../models/student.model');
+const thongSinhVien = require('../../../models/student.model');
 
 module.exports.dashboard = async (req, res) => {
   const {mssv} = req.params  

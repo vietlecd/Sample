@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
-const student = require('../../models/student.model')
-const course = require('../../models/course.model')
-const teacher = require('../../models/teacher.model')
+const student = require('../../../models/student.model')
+const course = require('../../../models/course.model')
+const teacher = require('../../../models/teacher.model')
 module.exports.dashboard = async (req, res) => {
     const {msgv} = req.params
     try {

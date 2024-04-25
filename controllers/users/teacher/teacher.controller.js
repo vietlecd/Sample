@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
-const teacherModel = require('../../models/teacher.model');
+const teacherModel = require('../../../models/teacher.model');
 
 exports.login = async (req, res) => {
     const errors = validationResult(req);

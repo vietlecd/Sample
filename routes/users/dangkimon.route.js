@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 
-const dangkimonController = require('../../controllers/users/dangkimon.controller');
+const dangkimonController = require('../../controllers/users/student/dangkimon.controller');
 
 
 router.get('/', dangkimonController.viewAvailableCourse)
