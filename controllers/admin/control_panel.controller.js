@@ -47,7 +47,7 @@ const addCourse = async (req, res) => {
 const updateCourse = async (req, res) => {
   try {
     const courseUpdate = {
-      semester: req.body.semester,
+        semester: req.body.semester,
         courseCode: req.body.courseCode,
         courseName: req.body.name,
         credit: req.body.credit,
@@ -66,7 +66,7 @@ const updateCourse = async (req, res) => {
         bangdiem: req.body.bangdiem,
     };
 
-    const course = await Course.findOneAndUpdate({ courseCode: req.params.courseCode }, courseUpdate, { new: true });
+    const course = await Course.findOneAndUpdate({ courseCode: req.body.courseCode }, courseUpdate, { new: true });
 
     if (!course) {
       return res.status(404).send();
@@ -82,7 +82,7 @@ const updateCourse = async (req, res) => {
 // Delete a course
 const deleteCourse = async (req, res) => {
   try {
-      const { courseCode } = req.params; 
+      const { courseCode } = req.body; 
       const deletedCourse = await Course.findOneAndDelete({ courseCode: courseCode });
       
       if (!deletedCourse) {

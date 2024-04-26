@@ -44,7 +44,7 @@ const addStudent = async (req, res) => {
 
 // Delete a student
 const deleteStudent = async (req, res) => {
-    const { mssv } = req.params;
+    const { mssv } = req.body;
 
     try {
         const deletedStudent = await Student.findOneAndDelete({ mssv: mssv });
@@ -71,7 +71,7 @@ const updateStudent = async (req, res) => {
             training_info: req.body.training_info
         }
 
-        const student = await Student.findOneAndUpdate({ mssv: req.params.mssv }, studentUpdated, { new: true });
+        const student = await Student.findOneAndUpdate({ mssv: req.body.mssv }, studentUpdated, { new: true });
 
         if (!student) {
             return res.status(404).send();
@@ -85,7 +85,7 @@ const updateStudent = async (req, res) => {
 
 // Find a student by mssv
 const findStudentByMssv = async (req, res) => {
-    const { mssv } = req.params;
+    const { mssv } = req.body;
 
     try {
         const student = await Student.findOne({ mssv: mssv });
