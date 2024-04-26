@@ -68,7 +68,9 @@ const updateStudent = async (req, res) => {
             mssv: req.body.mssv,
             image: req.body.image,
             private_info: req.body.private_info,
-            training_info: req.body.training_info
+            training_info: req.body.training_info,
+            courseReg: req.body.courseReg,
+            courseEnroll: req.body.courseEnroll
         }
 
         const student = await Student.findOneAndUpdate({ mssv: req.params.mssv }, studentUpdated, { new: true });
