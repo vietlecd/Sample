@@ -2,8 +2,6 @@ const mongoose = require('mongoose')
 const student = require('../../../models/student.model')
 const course = require('../../../models/course.model')
 
-
-
 module.exports.dashboard = async (req, res) => {
   const { msgv } = req.user;
   try {
@@ -81,7 +79,7 @@ module.exports.countStudentEnrollCourse = async (req, res) => {
 }
 
 //Update grade of a course for a student
-exports.updateGradeforStudent = async (req, res) => {
+module.exports.updateGradeforStudent = async (req, res) => {
   const { mssv, courseCode, lab, midterm, final } = req.body;
   try {
     const stu_find = { "mssv": mssv, "courseEnroll.courseCode": courseCode };
