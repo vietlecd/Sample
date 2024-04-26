@@ -20,15 +20,28 @@ const viewAvailableCourse = async (req, res) => {
 
 //Add a course registered
 const addCourseReg = async (req, res) => {
-
+  const {courseCode} = req.params
   try {
+      
       const mssv = req.user.mssv;
-      const course_match = await course.findOne({courseCode: req.body.courseCode}); 
+      const isExist = await student.findOne({
+        "mssv": mssv,
+        $or: [
+          {"courseEnroll.courseCode": courseCode},
+          {"courseReg.courseCode": courseCode}
+        ]
+      });
+      if (isExist){
+        return res.status(400).send("The course has already been enrolled/registered!");
+      }
+      const course_match = await course.findOne({courseCode: courseCode}); 
       const newCouSem = {
           courseId: course_match._id,
           semester: course_match.semester,
           courseCode: course_match.courseCode,
-          teacherName: course_match.instructorName
+          credit: course_match.credit,
+          instructorName: course_match.instructorName,
+          msgv: course_match.msgv
       }
       const find_filter = {mssv: mssv};
       const update_filter = {$push: {courseReg: newCouSem} };
@@ -45,9 +58,10 @@ const addCourseReg = async (req, res) => {
 
 //Delete a course registered by a student
 const deleteCourseReg = async (req, res) => {
-
+  const {courseCode} = req.params
   try {
-      const find_filter = {mssv: req.body.mssv};
+      const mssv = req.user.mssv;
+      const find_filter = {"mssv": mssv};
       const update_filter = {$pull: {courseReg: {"courseCode": req.body.courseCode}} };
       const option = {};
       const courseRet = await student.updateMany(find_filter, update_filter, option);
@@ -62,9 +76,9 @@ const deleteCourseReg = async (req, res) => {
 
 //Delete all course registered by a student
 const deleteAllCourseReg = async (req, res) => {
-
+  const mssv = req.user.mssv;
   try {
-      const find_filter = {mssv: req.body.mssv};
+      const find_filter = {"mssv": mssv};
       const update_filter = {$set: {courseReg: []} };
       const option = {};
       const courseRet = await student.updateMany(find_filter, update_filter, option);
@@ -78,8 +92,9 @@ const deleteAllCourseReg = async (req, res) => {
 }
 
 const confirmReg = async (req, res) => {
+  const mssv = req.user.mssv;
   try {
-    const find_filter = {mssv: req.user.mssv};
+    const find_filter = {"mssv": mssv};
     const update_option = {};
     const stu = await student.findOne(find_filter)
 

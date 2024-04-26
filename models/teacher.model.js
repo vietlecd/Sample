@@ -8,6 +8,10 @@ const teacherSchema = new mongoose.Schema({
         type: String,
         default: '123456'
     },
+    image: {
+        type: String,
+        default: 'default.jpg'
+    },
     msgv: {
         type: String,
         require: true,
@@ -30,9 +34,6 @@ const teacherSchema = new mongoose.Schema({
         sodienthoai: Number,
         emailtruongcap: String,
         emaillienlac: String 
-    },
-    courseTeach: {
-        type: [couSem]
     }
 });
 

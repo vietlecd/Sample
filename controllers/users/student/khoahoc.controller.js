@@ -2,8 +2,9 @@ const course = require('../../../models/course.model')
 const student = require('../../../models/student.model')
 
 module.exports.dashboard = async (req, res) => {
+    const {mssv} = req.user
     try {
-        const st = await student.findOne({ "mssv": req.body.mssv })
+        const st = await student.findOne({ "mssv": mssv })
         const courseRet = st.courseEnroll;
         if (!courseRet) {
           return res.status(404).send();

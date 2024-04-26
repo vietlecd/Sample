@@ -18,11 +18,13 @@ const khoahoc = require('../../controllers/users/student/khoahoc.controller');
 //get all route
 router.get('/thongtinsinhvien', thongtinSinhVien.dashboard);
 router.get('/thongtindaotao', thongtinDaoTao.getAllDaoTao);
-router.get('/tkb', tkb.gettkb);
+router.get('/tkb', tkb.getTKB);
 router.get('/lichthi', lichthi.getAllLichThi);
-router.get('/lichthi/:courseCode', lichthi.getLichThi);
+router.get('/lichthi/:semester', lichthi.getLichThi);
 router.get('/bangdiem', bangdiem.getbangdiem);
+router.get('/bangdiem/:semester', bangdiem.getbangdiemBySem);
 router.get('/khoahoc',khoahoc.dashboard);
+router.get('/khoahoc/:courseCode',khoahoc.viewCourseDescription);
 //*************************//
 
 //use route
