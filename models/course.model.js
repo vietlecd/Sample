@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const courseSchema = new mongoose.Schema({
     semester: { type: String, required: false },
-    courseCode: { type: String, required: false },
+    courseCode: { type: String, required: false, unique: true},
     courseName: {type: String, required: false },
     msgv: {type: String, required: false },
     instructorName: { type: String, required: false },

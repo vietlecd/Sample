@@ -14,7 +14,7 @@ const course = require('../../../models/course.model')
               $match: {"courseEnroll.msgv": msgv} 
             },
             {//Group documents by courseCode
-            //and count number of students studying in this course
+            //and count number of students studying in each course
               $group: {
                 _id: '$courseEnroll.courseCode',
                 semester: {$first: '$courseEnroll.semester'},

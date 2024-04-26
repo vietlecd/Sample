@@ -21,10 +21,13 @@ const storage = multer.diskStorage({
       cb(null, 'uploads/')  // Store files in the 'uploads' folder
     },
     filename: function(req, file, cb) {
-      cb(null, file.fieldname + '-gv-' + Date.now() + path.extname(file.originalname))  // Create a unique file name
+      cb(null, file.fieldname + '_giaovien_' + Date.now() + path.extname(file.originalname))  // Create a unique file name
     }
 });
+
 const upload = multer({ storage: storage });
-router.post('/thongtingiangvien/changePic', upload.single('image'), thongtinGiangVien.updatePicture);
+
+// Route to update a student's information and handle image upload
+router.post('/thongtingiangvien/upload', upload.single('image'), thongtinGiangVien.updatePicture);
 
 module.exports = router;
