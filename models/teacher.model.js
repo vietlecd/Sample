@@ -31,9 +31,6 @@ const teacherSchema = new mongoose.Schema({
         emailtruongcap: String,
         emaillienlac: String 
     },
-    courseTeach: {
-        type: [couSem]
-    }
 });
 
 const teacherModel = mongoose.model('teacher', teacherSchema);

@@ -12,3 +12,16 @@ module.exports.dashboard = async (req, res) => {
         res.status(500).send('Server error'); // send error response to client
     }
 };
+
+module.exports.updatePicture = async (req, res) => {
+    const {msgv} = req.user
+    try {
+        const find_filter = {"msgv": msgv}
+        const update_filter = {$set: {"image": req.body.image}}
+        const thongtingiangvien = await thongtinGiangVien.updateOne(find_filter, update_filter);
+        res.json(thongtingiangvien); // send response to client
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Server error'); // send error response to client
+    }
+};

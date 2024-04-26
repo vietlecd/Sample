@@ -14,4 +14,17 @@ router.put('/bangdieukhien/updateGrade', bangdieukhien.updateGradeforStudent)
 //router.use('/khoahoc',khoahoc.dashboard);
 router.use('/SinhVien',SinhVien.dashboard);
 
+const multer = require('multer');
+const path = require('path'); //Upload image
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+      cb(null, 'uploads/')  // Store files in the 'uploads' folder
+    },
+    filename: function(req, file, cb) {
+      cb(null, file.fieldname + '-gv-' + Date.now() + path.extname(file.originalname))  // Create a unique file name
+    }
+});
+const upload = multer({ storage: storage });
+router.post('/thongtingiangvien/changePic', upload.single('image'), thongtinGiangVien.updatePicture);
+
 module.exports = router;
