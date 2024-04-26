@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const couSem = require('./courseInSemester.model.js').Schema
 
 const teacherSchema = new mongoose.Schema({
     name: String, 
@@ -11,6 +12,10 @@ const teacherSchema = new mongoose.Schema({
         type: String,
         require: true,
         unique: true
+    },
+    role: {
+        type: String,
+        default: 'teacher'
     },
     private_info: {
         ngaySinh: Date, 
@@ -25,6 +30,9 @@ const teacherSchema = new mongoose.Schema({
         sodienthoai: Number,
         emailtruongcap: String,
         emaillienlac: String 
+    },
+    courseTeach: {
+        type: [couSem]
     }
 });
 

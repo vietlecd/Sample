@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const course = require('./models/courseLite.model');
-const student = require('./models/studentLite.model');
+const course = require('./models/course.model');
+const student = require('./models/student.model');
 const courseSemester = require('./models/courseInSemester.model');
 
 mongoose.connect("mongodb+srv://viewer123:keytovictory@dbtest.qfdz0ns.mongodb.net/?retryWrites=true&w=majority");
@@ -129,4 +129,16 @@ async function createExampleCourseSem(){
     await createExampleCourse();
     await createExampleStudent();
     await createExampleCourseSem();
+
+    const stu_find = {"mssv": "123456", "courseEnroll.courseCode": "MT2009"};
+    const stu_update = {$set: {"courseEnroll.$.grade": {
+        lab: 5,
+        midterm: 7,
+        final: 7.5
+    }}}
+    const stu_option = {new: true};
+    const courseRet = await student.updateOne(stu_find, stu_update, stu_option);
+    console.log(courseRet);
+    const stu = await student.findOne(stu_find);
+    console.log(stu);
 })();

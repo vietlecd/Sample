@@ -2,13 +2,13 @@ const express = require('express');
 
 const router = express.Router();
 
-const dangkimonController = require('../../controllers/users/dangkimon.controller');
+const dangkimonController = require('../../controllers/users/student/dangkimon.controller');
 
 
 router.get('/', dangkimonController.viewAvailableCourse)
-router.put('/reg', dangkimonController.addCourseReg)
+router.put('/reg/:courseCode', dangkimonController.addCourseReg)
 router.put('/confirmReg', dangkimonController.confirmReg)
-router.delete('/delOne', dangkimonController.deleteCourseReg)
+router.delete('/delOne/:courseCode', dangkimonController.deleteCourseReg)
 router.delete('/delAll', dangkimonController.deleteAllCourseReg)
 
 

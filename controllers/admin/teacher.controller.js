@@ -1,4 +1,5 @@
 const Teacher = require('../../models/teacher.model');
+const { generateUniqueMsgv } = require ('../../helpers/generateMsgv');
 
 // Get all teachers
 const getAllTeachers = async (req, res) => {
@@ -12,21 +13,32 @@ const getAllTeachers = async (req, res) => {
 
 const addTeacher = async (req, res) => {
     try {
+        const { name, email, private_info, training_info } = req.body;
+
+        // Generate new mssv
+        let msgv = await generateUniqueMsgv();
+
+        // Check if email is already taken
+        const existingEmail = await Teacher.findOne({ email: email });
+        if (existingEmail) {
+            return res.status(400).json({ message: "Email is already taken." });
+        }
+
         const newTeacher = new Teacher({
-            name: req.body.name,
-            email: req.body.email,
-            password: req.body.password,
-            msgv: req.body.msgv,
-            private_info: req.body.private_info,
-            contact_info: req.body.contact_info
+            name,
+            email,
+            "password": "123456",
+            msgv,
+            private_info,
+            training_info
         });
+
         await newTeacher.save();
-        res.status(201).json(newTeacher);
+        res.status(201).json({ message: "Add successfully", newTeacher });
     } catch (error) {
         res.status(400).send(error.message);
     }
 };
-
 const deleteTeacher = async (req, res) => {
     const { msgv } = req.params;
 
@@ -64,9 +76,25 @@ const updateTeacher = async (req, res) => {
     }
 };
 
+// Find a student by mssv
+const findTeacherByMsgv = async (req, res) => {
+    const { mssv } = req.params;
+
+    try {
+        const teacher = await Teacher.findOne({ mssv: mssv });
+        if (!teacher) {
+            return res.status(404).json({ message: "Teacher not found." });
+        }
+
+        res.status(200).json(teacher);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
 module.exports = {
     getAllTeachers,
     addTeacher,
     deleteTeacher, 
-    updateTeacher
+    updateTeacher,
+    findTeacherByMsgv
 }
