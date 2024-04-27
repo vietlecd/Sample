@@ -24,7 +24,9 @@ const login = async (req, res) => {
             passwordChangeRequired: true // Flag to indicate that password change is required
             });
         }
-
+        if(!student.password){
+            return res.status(401).json({ message: "Password typed undefined" });
+        }
         const isMatch = await bcrypt.compare(password, student.password);
         if (!isMatch) {
             return res.status(401).json({ message: "Incorrect password" });

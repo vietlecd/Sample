@@ -19,13 +19,13 @@ module.exports.updatePicture = async (req, res) => {
         const find_filter = {"msgv": msgv}
         const update_filter = {$set: {"image": req.body.image}};
         const update_option = {new: true}
-        const thongtingiangvien = await thongtinGiangVien.updateOne(find_filter, update_filter, update_option);
-        if(!res){
+        const picup = await thongSinhVien.updateOne(find_filter, update_filter, update_option);
+        if(!picup){
             return res(400).send('Cannot update picture!')
         }
-        res.json(thongtingiangvien); // send response to client
+        res.json(picup); // send response to client
     } catch (error) {
         console.error(error);
         res.status(500).send('Server error'); // send error response to client
     }
-};
+  };

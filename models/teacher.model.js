@@ -17,6 +17,7 @@ const teacherSchema = new mongoose.Schema({
         type: String,
         default: 'teacher'
     },
+    image: { type: String, required: false },
     private_info: {
         ngaySinh: Date, 
         gioiTinh: String,

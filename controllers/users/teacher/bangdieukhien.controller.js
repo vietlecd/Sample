@@ -45,7 +45,15 @@ module.exports.viewStudentEnrollCourse = async (req, res) => {
   const { courseCode } = req.params;
   try {
     const find_filter = { "courseEnroll.courseCode": courseCode }
-    const courseRet = await student.find(find_filter);
+    const select_filter = {
+        mssv: 1,
+        name: 1,
+        email: 1,
+        //project only the first element matched
+        //find_filter in courseEnroll array
+        "courseEnroll.$": 1   
+    }
+    const courseRet = await student.find(find_filter).select(select_filter);
     if (!courseRet) {
       return res.status(404).send();
     }
