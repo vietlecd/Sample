@@ -32,6 +32,8 @@ const khoahoc = require('../../controllers/users/student/khoahoc.controller');
 
 //get all route
 router.get('/thongtinsinhvien', thongtinSinhVien.dashboard);
+router.put('/thongtinsinhvien', thongtinSinhVien.updateStudent);
+router.post('/thongtinsinhvien/updatePicture', upload.single('image'), thongtinSinhVien.updatePicture);
 router.get('/thongtindaotao', thongtinDaoTao.getAllDaoTao);
 router.get('/tkb', tkb.getTKB);
 router.get('/lichthi', lichthi.getAllLichThi);
@@ -44,7 +46,5 @@ router.get('/khoahoc/:courseCode',khoahoc.viewCourseDescription);
 
 //use route
 router.use('/dangkimon', dangkimonRoute);
-
-router.post('/thongtinsinhvien/updatePicture', upload.single('image'), thongtinSinhVien.updatePicture);
 
 module.exports = router;

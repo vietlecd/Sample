@@ -28,3 +28,24 @@ module.exports.updatePicture = async (req, res) => {
         res.status(500).send('Server error'); // send error response to client
     }
   };
+
+module.exports.updateTeacher = async (req, res) => {
+    const {msgv} = req.user
+    try {
+        const teacherUpdated = {
+            name: req.body.name,
+            email: req.body.email,
+            private_info: req.body.private_info,
+            contact_info: req.body.contact_info
+        }
+
+        const tea = await teacher.updateOne({ "msgv": msgv }, teacherUpdated, { new: true });
+
+        if (!tea) {
+            return res.status(404).send();
+        }
+        res.json(tea);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};

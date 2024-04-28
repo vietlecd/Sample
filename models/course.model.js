@@ -15,8 +15,6 @@ const courseSchema = new mongoose.Schema({
     classroom: {
         room: {type: String, required: false },
         building: {type: String, required: false },
-        teacherCode: {type: String, required: false},
-        
     },
     midterm:{
         examDay: {type: String,required: false },

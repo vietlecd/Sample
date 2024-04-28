@@ -19,7 +19,8 @@ const upload = multer({ storage: storage });
 
 const bangdieukhienRoute = require('./bangdieukhien.route')
 
-router.use('/thongtingiangvien',thongtinGiangVien.dashboard);
+router.get('/thongtingiangvien',thongtinGiangVien.dashboard);
+router.put('/thongtingiangvien',thongtinGiangVien.updateTeacher);
 router.use('/SinhVien',SinhVien.dashboard);
 router.post('/thongtingiangvien/updatePicture', upload.single('image'), thongtinGiangVien.updatePicture);
 
